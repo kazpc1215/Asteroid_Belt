@@ -6,7 +6,10 @@ int main(void){
 
   int N = Np + Nt;
   int i,i_sys,j,k,ite,interval,Ntemp;
-  double t_sys,t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3, 2.0*M_PI*1.0E4, 2.0*M_PI*1.0E5, 2.0*M_PI*1.0E6, T_MAX};
+  double t_sys;
+  double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3, 2.0*M_PI*1.0E4, 2.0*M_PI*1.0E5, 2.0*M_PI*1.0E6, T_MAX};
+  //double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3};
+  
   double t_[N+1],dt_[N+1],Dt[N+1];
   double step=0.0;
   
@@ -32,7 +35,7 @@ int main(void){
 
   struct orbital_elements ele[N+1];
   
-  mkdir(STR(DIRECTORY), 0755);  //ディレクトリを作成  drwxr-xr-x
+  mkdir(STR(DIRECTORY), 0755);  //ディレクトリを作成  0755 = drwxr-xr-x
 
   srand(100);
 
@@ -149,10 +152,10 @@ int main(void){
  
     sprintf(ele[i].name,"test_particle%03d",i-Np);
     ele[i].m = 0.0;
-    ele[i].e = ((double)rand())/((double)RAND_MAX+1.0)*0.05;  //離心率
-    ele[i].axis = ((double)rand())/((double)RAND_MAX+1.0) + 2.2 ;  //長半径
+    ele[i].e = ((double)rand())/((double)RAND_MAX+1.0)*UPPER_ECC;  //離心率
+    ele[i].axis = ((double)rand())/((double)RAND_MAX+1.0)*(OUTER_AXIS-INNER_AXIS)+INNER_AXIS ;  //長半径
     ele[i].u = ((double)rand())/((double)RAND_MAX+1.0)*2.0*M_PI;  //離心近点離角
-    ele[i].I = ((double)rand())/((double)RAND_MAX+1.0)*0.05;  //軌道傾斜角
+    ele[i].I = ((double)rand())/((double)RAND_MAX+1.0)*UPPER_ICC;  //軌道傾斜角
     ele[i].OMEGA = ((double)rand())/((double)RAND_MAX+1.0)*2.0*M_PI;  //昇交点経度
     ele[i].omega = ((double)rand())/((double)RAND_MAX+1.0)*2.0*M_PI;  //近日点引数
     ele[i].R_H = 0.0;
@@ -349,7 +352,7 @@ int main(void){
 	      printf("orbit error\n");
 	      return -1;
 	    }
-	    fprintf(fporbit,"%e\tdead\t%e\tswap with %s\n",step,t_sys,ele[N].name);
+	    fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
 	    fclose(fporbit);
 	  }
 #endif
@@ -434,7 +437,7 @@ int main(void){
 	      printf("orbit 0 error\n");
 	      return -1;
 	    }
-	    fprintf(fporbit,"%e\tdead\t%e\tswap with %s\n",step,t_sys,ele[N].name);
+	    fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
 	    fclose(fporbit);
 	  }
 #endif
@@ -546,7 +549,7 @@ int main(void){
     
     if(fmod(step,1.0E5)==0.0){
       //printf("i_sys=%03d\tt=%.15e\tE=%.15e\tL=%.15e\tr_min=%.15e\n",i_sys,t_sys,E_tot,abs_L,r_min);  //全エネルギー,全角運動量
-      printf("step=%e\ti_sys=%03d\tt=%.15e[yr]\tr_min=%.15e[AU],%.15e[R_H]\n",step,i_sys,t_sys/2.0/M_PI,r_min,r_min_RH);
+      printf("step=%e\tN=%d\ti_sys=%03d\tt=%.15e[yr]\tr_min=%.15e[AU],%.15e[R_H]\n",step,N,i_sys,t_sys/2.0/M_PI,r_min,r_min_RH);
     }
     
     
