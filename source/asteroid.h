@@ -20,7 +20,7 @@
 #define T_MAX (2.0*M_PI*5.0E6)  //5Myr  全計算時間
 
 
-#define TIME_INTERVAL_MAX 5  //t_ene配列の要素数
+#define TIME_INTERVAL_MAX 1  //t_ene配列の要素数
 
 #define G 1
 #define M_0 1

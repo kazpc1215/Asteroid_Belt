@@ -6,7 +6,10 @@ int main(void){
 
   int N = Np + Nt;
   int i,i_sys,j,k,ite,interval,Ntemp;
-  double t_sys,t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3, 2.0*M_PI*1.0E4, 2.0*M_PI*1.0E5, 2.0*M_PI*1.0E6, T_MAX};
+  double t_sys;
+  //double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3, 2.0*M_PI*1.0E4, 2.0*M_PI*1.0E5, 2.0*M_PI*1.0E6, T_MAX};
+  double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3};
+  
   double t_[N+1],dt_[N+1],Dt[N+1];
   double step=0.0;
   
