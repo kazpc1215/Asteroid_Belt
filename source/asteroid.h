@@ -14,12 +14,12 @@
 #define Np 4  //惑星の数
 #define Nt 100  //テスト粒子の数
 
-#define TAU_MOVE (2.0*M_PI*1.0E3)  //0.5Myr  惑星移動の時間
-#define TAU_MASS (2.0*M_PI*1.0E3)  //5Myr  質量を増加させる時間
+#define TAU_MOVE (2.0*M_PI*5.0E5)  //0.5Myr  惑星移動の時間
+#define TAU_MASS (2.0*M_PI*5.0E6)  //5Myr  質量を増加させる時間
 
 #define T_MAX (2.0*M_PI*5.0E6)  //5Myr  全計算時間
 
-#define TIME_INTERVAL_MAX 1  //t_ene配列の要素数
+#define TIME_INTERVAL_MAX 5  //t_ene配列の要素数
 
 #define G 1
 #define M_0 1
@@ -27,9 +27,10 @@
 #define ETA 0.05
 #define ITE_MAX 3
 
-#define INNER_AXIS 4.0  //テスト粒子の長軸半径　下限
-#define OUTER_AXIS 6.0  //テスト粒子の長軸半径　上限
-
+#define INNER_AXIS 2.0  //テスト粒子の長軸半径　下限
+#define OUTER_AXIS 3.0  //テスト粒子の長軸半径　上限
+#define UPPER_ECC 0.05  //テスト粒子の離心率　上限
+#define UPPER_ICC 0.05  //テスト粒子の軌道傾斜角　上限
 
 /*惑星の番号*/
 #define JUP 1
