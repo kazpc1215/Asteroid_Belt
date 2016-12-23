@@ -252,7 +252,7 @@ int main(void){
   
 #if R_MIN
   for(i=1;i<=Np;i++){
-    r_min_RH[i] = 100.0;  //適当な距離[AU]
+    r_min_RH[i] = 10000.0;  //適当な距離[RH]
   }
 #endif
 
@@ -299,8 +299,6 @@ int main(void){
 	  ele[i].m = ele[i].m_f;
 	}
       }
-      ele[TARGET].R_H = ele[TARGET].axis*cbrt(ele[TARGET].m/((double)M_0)/3.0);
-      hill = ele[TARGET].R_H;
 
       for(i=1;i<=N;++i){ 
 	Dt[i] = t_sys - t_[i]; 
@@ -328,7 +326,9 @@ int main(void){
 
 #if R_MIN
       for(i=1;i<=Np;i++){
-	for(j=1;j<=N;++j){
+	ele[i].R_H = ele[i].axis*cbrt(ele[i].m/((double)M_0)/3.0);
+	hill = ele[i].R_H;
+	for(j=Np+1;j<=N;++j){
 	  if(i!=j){
 	    abs_r2[j] = SquareOfRaletiveDistance(i,j,x_c); //絶対値2乗
 	    abs_r[j] = sqrt(abs_r2[j]); //絶対値
@@ -336,15 +336,17 @@ int main(void){
 	    
 #if R_MIN * SWAP
 	    if(abs_r[j]<=hill){
-	      ele[j].judge = 0;  
+	      ele[j].judge = 0;
+	      abs_r[j] = abs_r[j-1];  //r_minをリセットする用　１つ前の粒子の値を使う
 	      sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
 	      fporbit = fopen(orbit,"a");
 	      if(fporbit==NULL){
 		printf("orbit error\n");
 		return -1;
 	      }
-	      fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
+	      fprintf(fporbit,"step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
 	      fclose(fporbit);
+	      printf("step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
 	    }
 #endif
 	  
@@ -370,8 +372,7 @@ int main(void){
 	  ele[i].m = ele[i].m_f;
 	}
       }
-      ele[TARGET].R_H = ele[TARGET].axis*cbrt(ele[TARGET].m/((double)M_0)/3.0);
-      hill = ele[TARGET].R_H;
+      
       
       for(i=1;i<=N;++i){
 	Dt[i] = t_ene[interval] - t_[i];
@@ -414,7 +415,9 @@ int main(void){
 
 #if R_MIN
       for(i=1;i<=Np;i++){
-	for(j=1;j<=N;++j){
+	ele[i].R_H = ele[i].axis*cbrt(ele[i].m/((double)M_0)/3.0);
+	hill = ele[i].R_H;
+	for(j=Np+1;j<=N;++j){
 	  if(i!=j){
 	    abs_r2[j] = SquareOfRaletiveDistance(i,j,x_c); //絶対値2乗
 	    abs_r[j] = sqrt(abs_r2[j]); //絶対値
@@ -422,15 +425,17 @@ int main(void){
 	    
 #if R_MIN * SWAP
 	    if(abs_r[j]<=hill){
-	      ele[j].judge = 0;  
+	      ele[j].judge = 0;
+	      abs_r[j] = abs_r[j-1];  //r_minをリセットする用　１つ前の粒子の値を使う
 	      sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
 	      fporbit = fopen(orbit,"a");
 	      if(fporbit==NULL){
 		printf("orbit error\n");
 		return -1;
 	      }
-	      fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
+	      fprintf(fporbit,"step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
 	      fclose(fporbit);
+	      printf("step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
 	    }
 #endif
 	  
@@ -540,9 +545,13 @@ int main(void){
     
     
     
-    if(fmod(step,1.0E6)==0.0){
+    if(fmod(step,1.0E5)==0.0){
       //printf("i_sys=%03d\tt=%.15e\tE=%.15e\tL=%.15e\tr_min=%.15e\n",i_sys,t_sys,E_tot,abs_L,r_min);  //全エネルギー,全角運動量
-      printf("step=%e\tN=%d\ti_sys=%03d\tt=%.15e[yr]\tr_min=%.15e[AU],%.15e[R_H]\n",step,N,i_sys,t_sys/2.0/M_PI,r_min,r_min_RH);
+      printf("step=%e\tN=%d\ti_sys=%03d\tt=%.2e[yr]",step,N,i_sys,t_sys/2.0/M_PI);
+      for(i=1;i<=Np;i++){
+        printf("\tr_min[%d]=%.6f[RH]",i,r_min_RH[i]);
+      }
+      printf("\n");
     }
     
     
