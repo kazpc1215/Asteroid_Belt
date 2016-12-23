@@ -1,5 +1,5 @@
-#[Semimajor Axis] from 2 to 4(AU), [Absolute Magnitude] under 9.7(mag) (equivalent to diameters D > 50km, assuming a visual geometric albedo of 0.09)
-#object		ω(°)	Ω(°)	i(°)	e	q(AU)	a(AU)	M(°)	n(°/d)	Q(AU)	P(yrs)	H(mag)
+#[Semimajor_Axis]_from_2_to_4(AU),_[Absolute_Magnitude]_under_9.7(mag)_(equivalent_to_diameters_D>50km,_assuming_a_visual_geometric_albedo_of_0.09)
+#num object	ω(°)	Ω(°)	i(°)	e	q(AU)	a(AU)	M(°)	n(°/d)	Q(AU)	P(yrs)	H(mag)
 (1) Ceres	72.8	80.3	10.6	0.08	2.56	2.77	224.1	0.214	2.98	4.61	3.3
 (10) Hygiea	311.9	283.2	3.8	0.11	2.79	3.14	335.4	0.177	3.50	5.57	5.4
 (100) Hekate	184.7	127.2	6.4	0.17	2.57	3.09	64.6	0.181	3.61	5.43	7.7
@@ -578,8 +578,4 @@
 (984) Gretia	55.5	314.2	9.1	0.20	2.25	2.80	341.2	0.210	3.36	4.69	9.0
 (986) Amelia	265.8	92.6	14.8	0.20	2.50	3.13	321.8	0.178	3.77	5.55	9.4
 (987) Wallia	16.3	322.7	8.9	0.24	2.40	3.14	322.2	0.177	3.88	5.56	9.5
-<<<<<<< HEAD
 (99) Dike	195.4	41.5	13.8	0.19	2.15	2.67	18.2	0.227	3.18	4.35	9.4
-=======
-(99) Dike	195.4	41.5	13.8	0.19	2.15	2.67	18.2	0.227	3.18	4.35	9.4
->>>>>>> 計算時間変更
