@@ -8,8 +8,7 @@ int main(void){
   int i,i_sys,j,k,ite,interval,Ntemp;
   double t_sys;
   double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3, 2.0*M_PI*1.0E4, 2.0*M_PI*1.0E5, 2.0*M_PI*1.0E6, T_MAX};
-  //double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3};
-  
+
   double t_[N+1],dt_[N+1],Dt[N+1];
   double step=0.0;
   
@@ -176,7 +175,7 @@ int main(void){
     
 #if ORBITALELEMENTS_FILE
   FILE *fporbit;   //初期の軌道要素をファイルへ書き出し
-  char orbit[50];
+  char orbit[100];
   for(i=1;i<=N;++i){
     sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
     fporbit = fopen(orbit,"w");
@@ -238,7 +237,7 @@ int main(void){
 #endif
     a_0[i][k] += v_0[i][k]/sqrt(v2_0[i])/TAU_MOVE*(sqrt(G*M_0/ele[i].axis_0) - sqrt(G*M_0/ele[i].axis_f));
   
-    printf("a_0[%d][%d]=%f\tadot_0[%d][%d]=%f\n",i,k,a_0[i][k],i,k,adot_0[i][k]);
+    //printf("a_0[%d][%d]=%f\tadot_0[%d][%d]=%f\n",i,k,a_0[i][k],i,k,adot_0[i][k]);
     }  //k loop
   }  //i loop
   
@@ -247,7 +246,7 @@ int main(void){
     for(k=1;k<=3;++k){
     a_0[i][k] = All_Acceleration(i,j,k,ele,x_0,r_0,abs_r2,a_0);  //初期の加速度
     adot_0[i][k] = All_dAcceleration(i,j,k,ele,x_0,v_0,r_dot_v,r_dot_v_ij,r_0,abs_r2,adot_0);
-    printf("a_0[%d][%d]=%f\tadot_0[%d][%d]=%f\n",i,k,a_0[i][k],i,k,adot_0[i][k]);
+    //printf("a_0[%d][%d]=%f\tadot_0[%d][%d]=%f\n",i,k,a_0[i][k],i,k,adot_0[i][k]);
     }
   }
   
@@ -269,7 +268,7 @@ int main(void){
 
   for(i=1;i<=N;++i){ 
     dt_[i] = Timestep_i_0(i,k,a_0,adot_0,abs_a,abs_adot,dt_);  //初期のタイムステップ計算
-    printf("initial dt_[%d]=%e\n",i,dt_[i]);
+    //printf("initial dt_[%d]=%e\n",i,dt_[i]);
   }
     
 
@@ -547,7 +546,7 @@ int main(void){
     
     
     
-    if(fmod(step,1.0E5)==0.0){
+    if(fmod(step,1.0E6)==0.0){
       //printf("i_sys=%03d\tt=%.15e\tE=%.15e\tL=%.15e\tr_min=%.15e\n",i_sys,t_sys,E_tot,abs_L,r_min);  //全エネルギー,全角運動量
       printf("step=%e\tN=%d\ti_sys=%03d\tt=%.15e[yr]\tr_min=%.15e[AU],%.15e[R_H]\n",step,N,i_sys,t_sys/2.0/M_PI,r_min,r_min_RH);
     }
