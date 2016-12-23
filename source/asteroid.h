@@ -7,18 +7,19 @@
 #include <math.h>
 #include <sys/stat.h>
 
-#define DIRECTORY ../data/Interaction_5Myr_1Hill/  //ファイル保存用のディレクトリ
+#define DIRECTORY ../data/Interaction_5Myr_1Hill_600/  //ファイル保存用のディレクトリ
 #define _STR(str) #str
 #define STR(str) _STR(str)
 
 #define Np 4  //惑星の数
-#define Nt 100  //テスト粒子の数
+#define Nt 600  //テスト粒子の数
 
 #define TAU_MOVE (2.0*M_PI*5.0E5)  //0.5Myr  惑星移動の時間
 #define TAU_MASS (2.0*M_PI*5.0E6)  //5Myr  質量を増加させる時間
 
 #define T_MAX (2.0*M_PI*5.0E6)  //5Myr  全計算時間
 
+#define TIME_INTERVAL 2.0*M_PI*1.0E3,2.0*M_PI*1.0E4,2.0*M_PI*1.0E5,2.0*M_PI*1.0E6,T_MAX  //t_ene配列の中身
 #define TIME_INTERVAL_MAX 5  //t_ene配列の要素数
 
 #define G 1
@@ -28,7 +29,7 @@
 #define ITE_MAX 3
 
 #define INNER_AXIS 2.0  //テスト粒子の長軸半径　下限
-#define OUTER_AXIS 3.0  //テスト粒子の長軸半径　上限
+#define OUTER_AXIS 3.75  //テスト粒子の長軸半径　上限
 #define UPPER_ECC 0.05  //テスト粒子の離心率　上限
 #define UPPER_ICC 0.05  //テスト粒子の軌道傾斜角　上限
 
@@ -39,8 +40,6 @@
 #define NEP 4
 
 #define R_MIN 1  //0以外のときr_min計算
-#define TARGET JUP  //r_minを計算する惑星
-
 #define INTERACTION 1  //0以外のとき惑星同士の相互作用を入れる
 #define SWAP 1  //0以外のとき1R_H以内に入った粒子を一番後ろの粒子と交換。そしてNをN-1としloopの回数を減らす。R_MINとセット。
 

@@ -7,7 +7,7 @@ int main(void){
   int N = Np + Nt;
   int i,i_sys,j,k,ite,interval,Ntemp;
   double t_sys;
-  double t_ene[TIME_INTERVAL_MAX]={2.0*M_PI*1.0E3, 2.0*M_PI*1.0E4, 2.0*M_PI*1.0E5, 2.0*M_PI*1.0E6, T_MAX};
+  double t_ene[TIME_INTERVAL_MAX]={TIME_INTERVAL};
 
   double t_[N+1],dt_[N+1],Dt[N+1];
   double step=0.0;
@@ -30,7 +30,7 @@ int main(void){
   
   double P[N+1][4],Q[N+1][4];
   
-  double r_min,r_min_RH,hill;
+  double r_min_RH[Np+1],hill;
 
   struct orbital_elements ele[N+1];
   
@@ -251,17 +251,8 @@ int main(void){
   }
   
 #if R_MIN
-  
-  r_min = 100.0;  //適当な距離[AU]
-  for(j=1;j<=N;++j){
-    if(TARGET!=j){
-      abs_r2[j] = SquareOfRaletiveDistance(TARGET,j,x_0); //絶対値2乗
-      abs_r[j] = sqrt(abs_r2[j]); //絶対値
-	      	
-      if(abs_r[j] < r_min){  //最近接距離計算 
-	r_min = abs_r[j];
-      } 
-    }
+  for(i=1;i<=Np;i++){
+    r_min_RH[i] = 100.0;  //適当な距離[AU]
   }
 #endif
 
@@ -336,33 +327,34 @@ int main(void){
 	
 
 #if R_MIN
-      for(j=1;j<=N;++j){
-	if(TARGET!=j){
-	  abs_r2[j] = SquareOfRaletiveDistance(TARGET,j,x_c); //絶対値2乗
-	  abs_r[j] = sqrt(abs_r2[j]); //絶対値
+      for(i=1;i<=Np;i++){
+	for(j=1;j<=N;++j){
+	  if(i!=j){
+	    abs_r2[j] = SquareOfRaletiveDistance(i,j,x_c); //絶対値2乗
+	    abs_r[j] = sqrt(abs_r2[j]); //絶対値
 #endif
-
+	    
 #if R_MIN * SWAP
-	  if(abs_r[j]<=hill){
-	    ele[j].judge = 0;  
-	    sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
-	    fporbit = fopen(orbit,"a");
-	    if(fporbit==NULL){
-	      printf("orbit error\n");
-	      return -1;
+	    if(abs_r[j]<=hill){
+	      ele[j].judge = 0;  
+	      sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
+	      fporbit = fopen(orbit,"a");
+	      if(fporbit==NULL){
+		printf("orbit error\n");
+		return -1;
+	      }
+	      fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
+	      fclose(fporbit);
 	    }
-	    fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
-	    fclose(fporbit);
-	  }
 #endif
 	  
 #if R_MIN
-	  if(abs_r[j] < r_min){  //最近接距離計算 
-	    r_min = abs_r[j];
-	  } 
-	}
-      }      
-      r_min_RH = r_min/hill;  //Hill半径で規格化
+	    if(abs_r[j] < r_min_RH[i]*hill){  //最近接距離計算 
+	      r_min_RH[i] = abs_r[j]/hill;  //Hill半径で規格化
+	    } 
+	  }
+	}  
+      }       
 #endif
 
 	
@@ -421,34 +413,36 @@ int main(void){
 
 
 #if R_MIN
-      for(j=1;j<=N;++j){
-	if(TARGET!=j){
-	  abs_r2[j] = SquareOfRaletiveDistance(TARGET,j,x_c);  //絶対値2乗	    
-	  abs_r[j] = sqrt(abs_r2[j]);  //絶対値
+      for(i=1;i<=Np;i++){
+	for(j=1;j<=N;++j){
+	  if(i!=j){
+	    abs_r2[j] = SquareOfRaletiveDistance(i,j,x_c); //絶対値2乗
+	    abs_r[j] = sqrt(abs_r2[j]); //絶対値
 #endif
-
-#if R_MIN * SWAP	  
-	  if(abs_r[j]<=hill){
-	    ele[j].judge = 0;  
-	    sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
-	    fporbit = fopen(orbit,"a");
-	    if(fporbit==NULL){
-	      printf("orbit 0 error\n");
-	      return -1;
+	    
+#if R_MIN * SWAP
+	    if(abs_r[j]<=hill){
+	      ele[j].judge = 0;  
+	      sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
+	      fporbit = fopen(orbit,"a");
+	      if(fporbit==NULL){
+		printf("orbit error\n");
+		return -1;
+	      }
+	      fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
+	      fclose(fporbit);
 	    }
-	    fprintf(fporbit,"step=%e\tdead\tt_sys=%e\tswap with %s\n",step,t_sys,ele[N].name);
-	    fclose(fporbit);
+#endif
+	  
+#if R_MIN
+	    if(abs_r[j] < r_min_RH[i]*hill){  //最近接距離計算 
+	      r_min_RH[i] = abs_r[j]/hill;  //Hill半径で規格化
+	    } 
 	  }
+	}  
+      }       
 #endif
 
-#if R_MIN
-	  if(abs_r[j] < r_min){  //最近接距離計算 
-	    r_min = abs_r[j];
-	  } 
-	}
-      }
-      r_min_RH = r_min/hill;  //Hill半径で規格化
-#endif
       
       
       
