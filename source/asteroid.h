@@ -7,7 +7,7 @@
 #include <math.h>
 #include <sys/stat.h>
 
-#define DIRECTORY ../data/test1/  //ファイル保存用のディレクトリ
+#define DIRECTORY ../data/Interaction_5Myr_1Hill/  //ファイル保存用のディレクトリ
 #define _STR(str) #str
 #define STR(str) _STR(str)
 
