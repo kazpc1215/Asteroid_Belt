@@ -1,7 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#define GYOU 579  //行数
+#define GYOU 2213  //行数
+#define BIN_MIN 30
+#define BIN_MAX 60
 
 
 struct orbital_elements{
@@ -24,7 +26,7 @@ struct orbital_elements{
 int main(void){
   
   int i,sum;
-  double bin,delta=0.03;
+  double bin,delta=0.3;
   struct orbital_elements ele[GYOU+1];
   /*
   char number[10];
@@ -43,7 +45,7 @@ int main(void){
   */
   char buf[100];
   FILE *fp;
-  char filename[30]="mainbeltdata.dat";
+  char filename[30]="kuiperbeltdata.dat";
     
   if((fp = fopen(filename,"r")) == NULL){
     fprintf(stderr,"Can't open %s.\n",filename);
@@ -51,7 +53,6 @@ int main(void){
   }
 
   fgets(buf,sizeof(buf),fp);  //読み飛ばし
-  fgets(buf,sizeof(buf),fp);
   fgets(buf,sizeof(buf),fp);
   
   i = 1;
@@ -64,9 +65,9 @@ int main(void){
   fclose(fp);
 
   
-  bin=2.0;
+  bin=BIN_MIN;
 
-  while(bin<=4.0){
+  while(bin<=BIN_MAX){
     sum=0;
     for(i=1;i<=GYOU;i++){
       if((ele[i].axis>=bin) && (ele[i].axis<bin+delta)){
