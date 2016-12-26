@@ -34,7 +34,7 @@ int main(void){
 
   struct orbital_elements ele[N+1];
   
-  mkdir(STR(DIRECTORY), 0755);  //ディレクトリを作成  0755 = drwxr-xr-x
+  mkdir(STR(DIRECTORY), 0755);  //ディレクトリを作成  755 = rwxr-xr-x
 
   srand(100);
 

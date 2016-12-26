@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <sys/stat.h>
 
 #define DIRECTORY ../data/Interaction_5Myr_1Hill_600/  //ファイル保存用のディレクトリ
 #define _STR(str) #str
