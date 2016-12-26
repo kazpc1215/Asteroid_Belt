@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <sys/stat.h>
 
 #define DIRECTORY ../data/Interaction_5Myr_1Hill_600/  //ファイル保存用のディレクトリ
 #define _STR(str) #str
@@ -92,7 +91,8 @@ double Acceleration_ij(int i,int j,int k,struct orbital_elements ele[],double x_
 
 double dAcceleration_ij(int i,int j,int k,struct orbital_elements ele[],double x_0[][4],double v_0[][4],double r_dot_v_ij[],double abs_r2[]);
 
-double External_Acceleration(int i,int k,double x_0[][4],double r_0[]);
+double External_Acceleration(int i,int k,double x_0[][4],
+double r_0[]);
 
 double External_dAcceleration(int i,int k,double x_0[][4],double v_0[][4],double r_0[],double r_dot_v[]);
 
