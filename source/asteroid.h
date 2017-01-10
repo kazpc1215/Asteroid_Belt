@@ -7,12 +7,12 @@
 #include <math.h>
 #include <sys/stat.h>
 
-#define DIRECTORY ../data/Interaction_5Myr_1Hill_600/  //ファイル保存用のディレクトリ
+#define DIRECTORY ../data/Interaction_5Myr_1Hill/  //ファイル保存用のディレクトリ
 #define _STR(str) #str
 #define STR(str) _STR(str)
 
 #define Np 4  //惑星の数
-#define Nt 600  //テスト粒子の数
+#define Nt 100  //テスト粒子の数
 
 #define TAU_MOVE (2.0*M_PI*5.0E5)  //0.5Myr  惑星移動の時間
 #define TAU_MASS (2.0*M_PI*5.0E6)  //5Myr  質量を増加させる時間
@@ -105,7 +105,7 @@ double RotatingCoordinate_X(struct orbital_elements ele[],double x_0[][4],double
 
 double RotatingCoordinate_Y(struct orbital_elements ele[],double x_0[][4],double t_sys);
 
-int Calculate_OrbitalElements(int i,int k,double x_c[][4],double v_c[][4],struct orbital_elements ele[],double P[][4],double Q[][4],double r_c[],double v2_c[],double r_dot_v[]);
+int Calculate_OrbitalElements(int i,int k,double x_c[][4],double v_c[][4],struct orbital_elements ele[],double P[][4],double Q[][4],double r_c[],double v2_c[],double r_dot_v[],double step,double t_sys,int N);
 
 double Calculate_P(int i,int k,struct orbital_elements ele[]);
 

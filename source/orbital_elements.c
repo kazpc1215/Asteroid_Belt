@@ -1,7 +1,7 @@
 #include "asteroid.h"
 
 /*軌道要素計算*/
-int Calculate_OrbitalElements(int i,int k,double x_c[][4],double v_c[][4],struct orbital_elements ele[],double P[][4],double Q[][4],double r_c[],double v2_c[],double r_dot_v[]){
+int Calculate_OrbitalElements(int i,int k,double x_c[][4],double v_c[][4],struct orbital_elements ele[],double P[][4],double Q[][4],double r_c[],double v2_c[],double r_dot_v[],double step,double t_sys,int N){
   
   double esin_u;
   double ecos_u;
@@ -13,7 +13,27 @@ int Calculate_OrbitalElements(int i,int k,double x_c[][4],double v_c[][4],struct
   double cos_OMEGA;
   double radian;
   
-  ele[i].axis = 1.0/(2.0/r_c[i] - v2_c[i]/(G*M_0));      
+  ele[i].axis = 1.0/(2.0/r_c[i] - v2_c[i]/(G*M_0));
+
+#if SWAP
+  if(ele[i].axis<=0.0){  //axisがマイナスになったとき=楕円軌道ではなくなった　swapする
+    ele[i].judge = 0;
+    FILE *fporbit;
+    char orbit[100];
+    sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
+    fporbit = fopen(orbit,"a");
+    if(fporbit==NULL){
+      printf("orbit error\n");
+      return -1;
+    }
+    fprintf(fporbit,"step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[i].name,ele[N].name);
+    fclose(fporbit);
+    printf("step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[i].name,ele[N].name);
+    fclose(fporbit);
+  }
+  
+#endif
+     
   ele[i].e = sqrt((1.0-r_c[i]/ele[i].axis)*(1.0-r_c[i]/ele[i].axis) + r_dot_v[i]*r_dot_v[i]/(G*M_0*ele[i].axis));
 
   if(ele[i].e==0.0){

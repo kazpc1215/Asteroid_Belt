@@ -347,6 +347,7 @@ int main(void){
 	      fprintf(fporbit,"step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
 	      fclose(fporbit);
 	      printf("step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
+	      continue;  //以下の処理をスキップ
 	    }
 #endif
 	  
@@ -436,6 +437,7 @@ int main(void){
 	      fprintf(fporbit,"step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
 	      fclose(fporbit);
 	      printf("step=%e\tt=%e[yr]\t%s is dead\tswap with %s\n",step,t_sys,ele[j].name,ele[N].name);
+	      continue;  //以下の処理をスキップ
 	    }
 #endif
 	  
@@ -454,7 +456,10 @@ int main(void){
 #if ORBITALELEMENTS_FILE
       
       for(i=1;i<=N;++i){
-	Calculate_OrbitalElements(i,k,x_c,v_c,ele,P,Q,r_c,v2_c,r_dot_v);  //軌道要素計算  ファイルへ書き出し
+	Calculate_OrbitalElements(i,k,x_c,v_c,ele,P,Q,r_c,v2_c,r_dot_v,step,t_sys,N);  //軌道要素計算  ファイルへ書き出し
+	if(ele[i].judge == 0){
+	  continue;  //以下の処理をスキップ
+	}
 	sprintf(orbit,"%s%s.dat",STR(DIRECTORY),ele[i].name);
 	fporbit = fopen(orbit,"a");
 	if(fporbit==NULL){
