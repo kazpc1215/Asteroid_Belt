@@ -7,20 +7,20 @@
 #include <math.h>
 #include <sys/stat.h>
 
-#define DIRECTORY ../data/Interaction_5Myr_1Hill/  //ファイル保存用のディレクトリ
+#define DIRECTORY ../data/Nbody_test/Nbody_test_10kyr_500/  //ファイル保存用のディレクトリ
 #define _STR(str) #str
 #define STR(str) _STR(str)
 
 #define Np 4  //惑星の数
-#define Nt 100  //テスト粒子の数
+#define Nt 500  //テスト粒子の数
 
 #define TAU_MOVE (2.0*M_PI*5.0E5)  //0.5Myr  惑星移動の時間
 #define TAU_MASS (2.0*M_PI*5.0E6)  //5Myr  質量を増加させる時間
 
-#define T_MAX (2.0*M_PI*5.0E6)  //5Myr  全計算時間
+#define T_MAX (2.0*M_PI*1.0E4)  //10kyr  全計算時間
 
-#define TIME_INTERVAL 2.0*M_PI*1.0E3,2.0*M_PI*1.0E4,2.0*M_PI*1.0E5,2.0*M_PI*1.0E6,T_MAX  //t_ene配列の中身
-#define TIME_INTERVAL_MAX 5  //t_ene配列の要素数
+#define TIME_INTERVAL 2.0*M_PI*1.0E2,2.0*M_PI*1.0E3,T_MAX  //t_ene配列の中身
+#define TIME_INTERVAL_MAX 3  //t_ene配列の要素数
 
 #define G 1
 #define M_0 1
